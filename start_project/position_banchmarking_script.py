@@ -276,11 +276,14 @@ with xlsxwriter.Workbook("match_benchmarks_stat_grouped.xlsx") as wb:
 with xlsxwriter.Workbook("match_benchmarks_stat_sep.xlsx") as wb:
 
     #for position in tqdm(df_subset.select('position').unique('position').to_series().to_list()):
-    for position in positions:
+    for position in positions:    
         result_list = []
 
+        df_pos = df_subset.filter(pl.col("position_grouped") == position)
+        df_pos = df_pos.filter(pl.col("competition_region_division").is_not_null())
+
         # determine the sample size per competition
-        ss = (df_subset
+        ss = (df_pos
             .filter(pl.col("position_grouped") == position)
             .group_by("competition_region_division")
             .agg([
@@ -291,7 +294,7 @@ with xlsxwriter.Workbook("match_benchmarks_stat_sep.xlsx") as wb:
         # Filter for this specific position
         for metric in metrics:
             result = (
-                df_subset
+                df_pos
                 .filter(pl.col("position_grouped") == position)
                 .group_by("competition_region_division")
                 .agg(
