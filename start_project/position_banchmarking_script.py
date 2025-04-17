@@ -11,6 +11,9 @@ ce_json_path = './skillcorner-competition-editions.json'
 # 1.2  directory containing json files with skillcorner position data
 json_PosDir_path = './skillcorner-20250214/'
 # 1.3 
+sb_cl = pl.read_csv('statsbomb-competition-levels.csv')
+
+
 
 # STEP 2: Converting the competitions editions json to a usable DataFrame
 
