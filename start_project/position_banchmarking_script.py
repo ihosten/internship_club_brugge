@@ -4,17 +4,19 @@ import json
 import os
 import polars.selectors as cs
 import xlsxwriter
+import zipfile
+import io
 
 # STEP 1: Defining the path to the required files
 
-# 1.1 json file containing skillcorner competition editions information 
-ce_json_path = './skillcorner-competition-editions.json'
+# 1.1 json file containing skillcorner competition editions information
+ce_json_path = "./skillcorner-competition-editions.json"
 # 1.2 Directory containing json files with skillcorner position data
-json_PosDir_path = './skillcorner-20250214/'
+json_PosDir_path = "./skillcorner-20250214.zip"
 # 1.3 csv containing statsbomb competition id and info (country & division)
-sb_path = './statsbomb-competition-levels.csv'
+sb_path = "./statsbomb-competition-levels.csv"
 # 1.4 csv containing comparison of statsbomb and skillcorner id's / information
-sb_sc_path = './mapping-competition-seasons.csv'
+sb_sc_path = "./mapping-competition-seasons.csv"
 
 
 
@@ -50,10 +52,23 @@ how = "horizontal",)
 
 # STEP 3: Combining the json files with the position data into a usable dataframe
 # Looping through the json files and concating them into one dataframe
-json_list = [
-    pl.read_json(os.path.join(json_PosDir_path, jsonf))
-    for jsonf in os.listdir(json_PosDir_path)
-]
+#json_list = [
+#    pl.read_json(os.path.join(json_PosDir_path, jsonf))
+#    for jsonf in os.listdir(json_PosDir_path)
+#]
+
+json_list = []
+
+with zipfile.ZipFile(json_PosDir_path, "r") as zip:
+    for file_name in zip.namelist():
+        if file_name.endswith(".json"):
+            with zip.open(file_name) as f:
+                json_bytes = f.read()
+                json_buffer = io.BytesIO(json_bytes)
+                df = pl.read_json(json_buffer)
+                json_list.append(df)
+
+json_df = pl.concat(json_list)
 
 json_df = pl.concat(json_list)
 
@@ -322,3 +337,8 @@ with xlsxwriter.Workbook("match_benchmarks_stat_sep.xlsx") as wb:
             freeze_panes = (1,0),
             header_format = {"bold": True}
         )
+        
+# STEP 9: Write the dataframe to a parquet file that will be used for visualisation
+parquet4visual_path = "./parquet4visual.parquet"
+
+df_subset.write_parquet(parquet4visual_path)
