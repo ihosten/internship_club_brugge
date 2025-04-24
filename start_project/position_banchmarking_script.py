@@ -181,26 +181,7 @@ df = df.select(sorted(df.columns))
 
 # STEP 8: Creating Excell files showing benchmaarked data for the needed metrics
 
-# 8.1 Hardcoding column names of the metrics wanted in the excells
-# competition_region_division and position are fixed columns and should not be changed
-df_subset = df.select([
-    'competition_region_division', 
-    'position',
-    'P90 Distance',
-    'P90 Running Distance',
-    'P90 HSR Distance', 
-    'P90 Sprinting Distance', 
-    'PSV-99'
-])
-# The performance metrics are variable columns and can be modified
-# depending on the wanted analysis
-metrics = df_subset.drop([
-    'competition_region_division', 
-    'position'
-]).columns
-
-
-# 8.2 group the symmetrical positions by hardcoding
+# 8.1 group the symmetrical positions by hardcoding
 # symmetrical positions have to be shown in the same excell sheet 
 mapping = {
     "RM": "RM|LM",
@@ -219,13 +200,30 @@ mapping = {
     "CF": "CF"
 }
 
-df_subset = df_subset.with_columns(
+df = df.with_columns(
     position_grouped = pl.col("position").replace_strict(mapping)
 )
 
+# 8.2 Hardcoding column names of the metrics wanted in the excells
+# competition_region_division and position are fixed columns and should not be changed
+df_subset = df.select([
+    'competition_region_division', 
+    'position_grouped',
+    'P90 Distance',
+    'P90 Running Distance',
+    'P90 HSR Distance', 
+    'P90 Sprinting Distance', 
+    'PSV-99'
+])
+# The performance metrics are variable columns and can be modified
+# depending on the wanted analysis
+metrics = df_subset.drop([
+    'competition_region_division', 
+    'position_grouped'
+]).columns
+
 # 8.3 Hardcoding positions in the same order as the wanted excell sheet order
 positions = ['CB', 'RCB|LCB', 'RWB|LWB', 'DM','RM|LM', 'AM', 'RW|LW', 'CF', 'RF|LF']
-
 
 # 8.4 Create the 1st excell type
 # store the statistical measures to loop through 
@@ -339,6 +337,7 @@ with xlsxwriter.Workbook("match_benchmarks_stat_sep.xlsx") as wb:
         )
         
 # STEP 9: Write the dataframe to a parquet file that will be used for visualisation
+# entire dataframe written to the parquet file 
 parquet4visual_path = "./parquet4visual.parquet"
 
-df_subset.write_parquet(parquet4visual_path)
+df.write_parquet(parquet4visual_path)
