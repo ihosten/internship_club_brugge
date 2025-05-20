@@ -1,13 +1,8 @@
 import numpy as np
 from pathlib import Path
 import json
-import io
-import polars as pl
-import floodlight
-#from floodlight.io.secondspectrum import read_position_data_jsonl
 from floodlight.io.secondspectrum import read_teamsheets_from_meta_json
 import json
-import tempfile
 from typing import Union, Tuple, Dict
 from pathlib import Path
 from floodlight.core.pitch import Pitch
@@ -15,32 +10,7 @@ from floodlight.io.utils import get_and_convert
 from floodlight.core.teamsheet import Teamsheet
 from floodlight.core.xy import XY
 from floodlight.core.code import Code
-from floodlight.models.kinematics import AccelerationModel
-from floodlight.models.kinematics import DistanceModel
-from floodlight.models.kinematics import VelocityModel
 
-def clean_metadata(filepath_metadata: Union[str, Path]):
-    "function to modify the metadata data frame in order to match the floodlight functions input"
-    with open(str(filepath_metadata), "r") as f:
-        raw_meta = json.load(f)
-        
-        meta_flat = raw_meta["data"]
-        
-        meta_flat["fps"] = 25
-        
-        for period in meta_flat.get("periods", []):
-            period["startFrameIdx"] = period.pop("startFrameClock", None)
-            period["endFrameIdx"] = period.pop("endFrameClock", None)
-            
-            if not period.get("number"):
-                period["number"] = 1
-        
-        meta_flat["homePlayers"] = meta_flat["homeTeam"]["players"]
-        meta_flat["awayPlayers"] = meta_flat["awayTeam"]["players"]
-        
-        with open("cleaned_metadata.json", "w") as f:
-            json.dump(meta_flat, f)
-            
             
 def clean_metadata(filepath_metadata: Union[str, Path]):
     "function to modify the metadata data frame in order to match the floodlight functions input"
