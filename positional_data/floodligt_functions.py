@@ -1,18 +1,39 @@
+import json
 import numpy as np
 from pathlib import Path
-import json
-from floodlight.io.secondspectrum import read_teamsheets_from_meta_json
-import json
 from typing import Union, Tuple, Dict
-from pathlib import Path
+from floodlight.core.xy import XY
+from floodlight.core.code import Code
 from floodlight.core.pitch import Pitch
 from floodlight.io.utils import get_and_convert
 from floodlight.core.teamsheet import Teamsheet
-from floodlight.core.xy import XY
-from floodlight.core.code import Code
+from floodlight.io.secondspectrum import read_teamsheets_from_meta_json
+
+"""
+DOCUMENTATION:
+
+The Floodlight module enables to convert match optical tracking data into meaningfull numbers as Distance, Velocity and Acceleration
+Floodlight functions take 2 inputs
+- metadata file: contains all metadata (e.g. match and team info)
+- tracking file: contains the positional information
+
+There is a mismatch between the metadata of the provider and floodlight functions
+--> clean_metadata: adapts the metadata file of the provider so that it meets the floodlight functions, clean_meatadata returns a new 'cleaned' metadata file
+
+the _read_metajson is the original floodlight function and is used in the read_position_data_jsonl function
+_read_metajson is included here to enable seperate testing of the function
+
+read_position_data_jsonl takes a metadata and tracking file as input and returns a data object containing xy positition values.
+the data object can be used as input for floodlight distance, velocity and acceleration functions
+the read read_position_data_jsonl was slightly modified from the original floodlight version in the followwing line:
+    
+    frame_rel = (frame_abs - periods[segment][0]) // 40
+
+--> the division by 40 was added to account for the correct sampling rate
+"""
 
             
-def clean_metadata(filepath_metadata: Union[str, Path]):
+def clean_metadata(filepath_metadata: Path, filepath_clean_metadata: Path):
     "function to modify the metadata data frame in order to match the floodlight functions input"
     with open(str(filepath_metadata), "r") as f:
         raw_meta = json.load(f)
@@ -31,7 +52,7 @@ def clean_metadata(filepath_metadata: Union[str, Path]):
         meta_flat["homePlayers"] = meta_flat["homeTeam"]["players"]
         meta_flat["awayPlayers"] = meta_flat["awayTeam"]["players"]
         
-        with open("cleaned_metadata.json", "w") as f:
+        with filepath_clean_metadata.open("w") as f:
             json.dump(meta_flat, f)
             
             
