@@ -40,3 +40,25 @@ Notebook containing Dash app
 - Clusters competitions
 
 ## Positional data 
+The aim of this directory was to process Secondspectrum optical tracking data from matches using various methods
+
+**floodlight_functions.ipynb**  
+Contains modified/optimized versions of the functions of the Python Floodlight module
+
+**floodlight2parquet.ipynb**  
+Extracts meeaningfull data from the Secondspectrum json files using Floodlight functions
+- X-Y coordinates per frame dataframe
+- Distance moved per frame dataframe
+- Moving velocity per frame dataframe
+- Using slight changes acceleration dataframe can also be determined
+- Dataframes are written to seperate parquet files to avoid unescessary repetitio, of the heavy Floodlight functions
+
+**NumberOfRuns.ipynb**  
+Calculates the number of runs above or between certain speed tresholds per player using the Floodlight velocity dataframe
+
+**ChangesOfDirection_PossessionStatus.ipynb**  
+Calculates the number of direction changes per player
+- Contains 3 different calculation methods
+
+**ChangesOfDirection_PossessionStatus.ipynb**  
+Calculates the number of direction changes per player both in and out ball possession
