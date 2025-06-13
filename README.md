@@ -1,4 +1,7 @@
-# internship_club_brugge
+# internship_club_brugge  
+A summary of the notebooks created during the internships
+The headers represent the folders containing all work per project
+The bold subheaders represent specific notebooks 
 
 ## Inwerkdag
 This directory contains data and notebooks of my first few days at the internship.
@@ -11,7 +14,7 @@ Where I focused on getting familiar with python
 **benchmarking.ipynb**
 - Combines Skillcorner match data with statsbomb competition information and in house quality scores
 - Normalizes data to 90 minutes
-- Calculates statistical metrics per competition and position
+- Calculates statistical metrics for for physical match data per competition and position
 - Writes the statistical data to 2 seperate excel formats
 - Stores processed data in a single parquet file
 
@@ -19,6 +22,11 @@ Where I focused on getting familiar with python
 Contains the same content as _ _benchmarking.ipynb_ _ but is a single script
 
 **statistical_testing_competitions.ipynb**  
+Identifying competitions that have similar demands
+- Compares competitions based on a selected match metrics
+- Attempts to find statistically significant differences using Tukey HSD post hoc analysis
+- Results are written to 2 Excel files, one file compares the competitions on a general level, the second file compares the competitions per position.
+
 **clustering_competitions.ipynb**  
 Extracts metrics from a parquet file and clusters similar competitions
 - Clusters created based on 2 metrics using K-means from Scikit-Learn
