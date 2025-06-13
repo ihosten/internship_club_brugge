@@ -17,6 +17,7 @@ Extracts metrics from a parquet file and clusters similar competitions
 - Clusters created based on 2 metrics using K-means from Scikit-Learn
 - Optimal cluster number is detrmined using silhoutte score (limit set to 6)
 - Results are written to an Excel file
+
 **analysis.ipynb**  
 **visualisation.ipynb**  
 
