@@ -7,7 +7,7 @@ The bold subheaders represent specific notebooks
 This directory contains data and notebooks of my first few days at the internship.
 Where I focused on getting familiar with python
 
-## Start Project 
+## Competition Comparison 
 **exploratory_analysis.ipynb**  
 Contianing code of the initial data exploration  
 Investigates correlations between metrics
