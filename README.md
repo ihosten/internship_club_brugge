@@ -8,9 +8,10 @@ This directory contains data and notebooks of my first few days at the internshi
 Where I focused on getting familiar with python
 
 ## Start Project 
-**analysis.ipynb**    
-**data_normalization.ipynb**  
 **exploratory_analysis.ipynb**  
+Contianing code of the initial data exploration  
+Investigates correlations between metrics
+
 **benchmarking.ipynb**
 - Combines Skillcorner match data with statsbomb competition information and in house quality scores
 - Normalizes data to 90 minutes
@@ -28,12 +29,14 @@ Identifying competitions that have similar demands
 - Results are written to 2 Excel files, one file compares the competitions on a general level, the second file compares the competitions per position.
 
 **clustering_competitions.ipynb**  
-Extracts metrics from a parquet file and clusters similar competitions
+Identifying competitions that have similar demands
 - Clusters created based on 2 metrics using K-means from Scikit-Learn
 - Optimal cluster number is detrmined using silhoutte score (limit set to 6)
 - Results are written to an Excel file
 
-**analysis.ipynb**  
 **visualisation.ipynb**  
+Notebook containing Dash app
+- Compares competion and position demands
+- Clusters competitions
 
 ## Positional data 
