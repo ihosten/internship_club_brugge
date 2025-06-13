@@ -10,13 +10,13 @@ import io
 # STEP 1: Defining the path to the required files
 
 # 1.1 json file containing skillcorner competition editions information
-ce_json_path = "./skillcorner-competition-editions.json"
+ce_json_path = "./data/skillcorner-competition-editions.json"
 # 1.2 Directory containing json files with skillcorner position data
-json_PosDir_path = "./skillcorner-20250214.zip"
+json_PosDir_path = "./data/skillcorner-20250214.zip"
 # 1.3 csv containing statsbomb competition id and info (country & division)
-sb_path = "./statsbomb-competition-levels.csv"
+sb_path = "./data/statsbomb-competition-levels.csv"
 # 1.4 csv containing comparison of statsbomb and skillcorner id's / information
-sb_sc_path = "./mapping-competition-seasons.csv"
+sb_sc_path = "./data/mapping-competition-seasons.csv"
 
 
 
@@ -338,6 +338,6 @@ with xlsxwriter.Workbook("match_benchmarks_stat_sep.xlsx") as wb:
         
 # STEP 9: Write the dataframe to a parquet file that will be used for visualisation
 # entire dataframe written to the parquet file 
-parquet4visual_path = "./parquet4visual.parquet"
+parquet4visual_path = "./data/parquet4visual.parquet"
 
 df.write_parquet(parquet4visual_path)
