@@ -9,8 +9,14 @@ Where I focused on getting familiar with python
 **data_normalization.ipynb**  
 **exploratory_analysis.ipynb**  
 **benchmarking.ipynb**
+- Combines Skillcorner match data with statsbomb competition information and in house quality scores
+- Normalizes data to 90 minutes
+- Calculates statistical metrics per competition and position
+- Writes the statistical data to 2 seperate excel formats
+- Stores processed data in a single parquet file
+
 **position_benchmarking_script.py**  
-Contains the same content as __benchmarking.ipynb__ but is a single script
+Contains the same content as _ _benchmarking.ipynb_ _ but is a single script
 
 **statistical_testing_competitions.ipynb**  
 **clustering_competitions.ipynb**  
